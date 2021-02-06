@@ -1,8 +1,8 @@
 class Dom {
   constructor(selector) {
     this.$el = typeof selector === 'string'
-        ? document.querySelector(selector)
-        : selector
+      ? document.querySelector(selector)
+      : selector
   }
 
   html(html) {
@@ -12,9 +12,26 @@ class Dom {
     }
     return this.$el.outerHTML.trim()
   }
+
   clear() {
     this.html('')
     return this
+  }
+
+  find(selector) {
+    return $(this.$el.querySelector(selector))
+  }
+
+  addClass(className) {
+    this.$el.classList.add(className)
+  }
+
+  removeClass(className) {
+    this.$el.classList.remove(className)
+  }
+
+  id() {
+    return this.data.id
   }
 
   on(eventType, callback) {
@@ -28,7 +45,7 @@ class Dom {
   // node=element
   append(node) {
     if (node instanceof Dom) {
-      node=node.$el
+      node = node.$el
     }
     if (Element.prototype.append) {
       this.$el.append(node)
@@ -53,9 +70,9 @@ class Dom {
     return this.$el.querySelectorAll(selector)
   }
 
-  css(styles={}) {
-    Object.keys(styles).forEach(key =>{
-      this.$el.style[key]=styles[key]
+  css(styles = {}) {
+    Object.keys(styles).forEach(key => {
+      this.$el.style[key] = styles[key]
     })
   }
 }
@@ -64,7 +81,7 @@ export function $(selector) {
   return new Dom(selector)
 }
 
-$.create = (tagName, classes='') => {
+$.create = (tagName, classes = '') => {
   const el = document.createElement(tagName)
   if (classes) {
     el.classList.add(classes)
