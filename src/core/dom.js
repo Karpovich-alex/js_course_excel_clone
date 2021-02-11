@@ -13,6 +13,17 @@ class Dom {
     return this.$el.outerHTML.trim()
   }
 
+  text(text) {
+    if (typeof text === 'string') {
+      this.$el.textContent=text
+      return this
+    }
+    if (this.$el.tagName.toLowerCase() === 'input') {
+      return this.$el.valie.trim()
+    }
+    return this.$el.textContent.trim()
+  }
+
   clear() {
     this.html('')
     return this
@@ -24,14 +35,25 @@ class Dom {
 
   addClass(className) {
     this.$el.classList.add(className)
+    return this
   }
 
   removeClass(className) {
     this.$el.classList.remove(className)
+    return this
   }
 
-  id() {
+  id(parse) {
+    if (parse) {
+      const coord = this.data.id.split(':')
+      return {'row': coord[0], 'col': coord[1]}
+    }
     return this.data.id
+  }
+
+  focus() {
+    this.$el.focus()
+    return this
   }
 
   on(eventType, callback) {
