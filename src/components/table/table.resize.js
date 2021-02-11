@@ -5,7 +5,7 @@ export function resizeHandler($root, event) {
   const $parent = $resizer.closest('[data-type="resizable"')
   const coords = $parent.getCoords()
   const type = $resizer.data.resize
-  const sideProp = type ==='col' ? 'bottom': 'right'
+  const sideProp = type === 'col' ? 'bottom' : 'right'
   let value
   const minWidth = 40
   const minHeight = 20
@@ -20,14 +20,14 @@ export function resizeHandler($root, event) {
       let delta = e.pageX - coords.right
       value = coords.width + delta
       if (value < minWidth) {
-        delta=(minWidth-coords.width)
+        delta = (minWidth - coords.width)
       }
       $resizer.css({right: -delta + 'px'})
     } else {
       let delta = e.pageY - coords.bottom
       value = coords.height + delta
       if (value < minHeight) {
-        delta=(minHeight-coords.height)
+        delta = (minHeight - coords.height)
       }
       $resizer.css({bottom: -delta + 'px'})
     }
@@ -38,7 +38,7 @@ export function resizeHandler($root, event) {
     if (type === 'col') {
       $parent.css({'width': value + 'px'})
       $root.findAll(`[data-col="${$parent.data.col}"]`)
-          .forEach(el => el.style.width = value + 'px')
+        .forEach(el => el.style.width = value + 'px')
       $resizer.css({
         right: 0,
         bottom: '0px'
