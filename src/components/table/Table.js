@@ -1,17 +1,18 @@
 import {ExcelComponent} from '@core/ExcelComponent';
 import {createTable} from '@/components/table/table.template';
-import {resizeHandler} from '@/components/table/table.resize';
+import {resizeHandler, setDefaultsize} from '@/components/table/table.resize';
 import {isCell, shouldResize, shiftKeyEvent, nextSelector} from
   '@/components/table/table.functions';
 import {TableSelection} from '@/components/table/TableSelection';
 import {$} from '@core/dom';
+import * as actions from '@/redux/actions'
 
 
 export class Table extends ExcelComponent {
   constructor($root, options) {
     super($root, {
       name: 'Table',
-      listeners: ['mousedown', 'keydown', 'input'],
+      listeners: ['mousedown', 'keydown', 'input', 'dblclick'],
       ...options
     });
   }
@@ -26,6 +27,7 @@ export class Table extends ExcelComponent {
     this.selection.select($cell)
     this.$emit('table:select', $cell)
   }
+
   init() {
     super.init()
 
@@ -45,9 +47,23 @@ export class Table extends ExcelComponent {
     return createTable(20)
   }
 
+  async resizeTable(event) {
+    try {
+      const data = await resizeHandler(this.$root, event)
+      this.$dispatch(actions.tableResize(data))
+    } catch (e) {
+      console.warn('Resize error', e.message)
+    }
+  }
+
+  onDblclick(event) {
+    console.log('DOBLEClick!')
+    console.log(setDefaultsize(this.$root, event))
+  }
+
   onMousedown(event) {
     if (shouldResize(event)) {
-      resizeHandler(this.$root, event)
+      this.resizeTable(event)
     } else if (isCell(event)) {
       const $target = $(event.target)
       if (event.ctrlKey) {
