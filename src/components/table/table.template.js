@@ -7,14 +7,17 @@ const CODES = {
 
 function toCell(row, state) {
   return (_, col) => {
+    const dataId=`${row}:${col}`
+    const cellData = state.dataState[dataId] || ''
+    const width = getWidth(state.colState, col)
     return `
     <div class="cell" 
     contenteditable 
     data-col="${col}" 
     data-row="${row}"
-    data-id="${row}:${col}"
-    style="width: ${getWidth(state.colState, col)}"
-    ></div>
+    data-id="${dataId}"
+    style="width: ${width}"
+    >${cellData}</div>
     `
   }
 }
@@ -35,11 +38,12 @@ function toColumn({col, index, width}) {
 function createRow(index, content, state= {}) {
   // eslint-disable-next-line max-len
   const resizer = index ? '<div class="row-resize" data-resize="row"></div>' : ''
+  const height = getHeight(state, index)
   return `
     <div class="row" 
     data-type="resizable" 
     data-row="${index}" 
-    style="height: ${getHeight(state, index)}">
+    style="height: ${height}">
         <div class="row-info">
             ${index ? index : ''}
             ${resizer}
