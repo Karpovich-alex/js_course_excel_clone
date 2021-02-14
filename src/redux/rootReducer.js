@@ -1,16 +1,27 @@
 import {TABLE_RESIZE} from '@/redux/types';
-import {cellWidth} from '@core/consts';
+import {cellWidth, rowHeight} from '@core/consts';
 
 export function rootReducer(state, action) {
   let prevState
   switch (action.type) {
   case TABLE_RESIZE:
-    prevState = state.colState || {}
-    if (action.data.value===cellWidth) {
-      return {...state.filter(data => data !== action.data.id)}
+    if (action.data.type === 'col') {
+      prevState = state.colState || {}
+      if (action.data.value===cellWidth || !action.data.value) {
+        delete state.colState[action.data.id]
+        return state
+      }
+      prevState[action.data.id] = action.data.value
+      return {...state, colState: prevState}
+    } else {
+      prevState = state.rowState || {}
+      if (action.data.value===rowHeight || !action.data.value) {
+        delete state.rowState[action.data.id]
+        return state
+      }
+      prevState[action.data.id] = action.data.value
+      return {...state, rowState: prevState}
     }
-    prevState[action.data.id] = action.data.value
-    return {...state, colState: prevState}
   default: return state
   }
 }

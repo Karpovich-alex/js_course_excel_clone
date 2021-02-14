@@ -15,6 +15,15 @@ export function resizeHandler($root, event) {
       'user-select': 'none'
     })
 
+    document.ondblclick = () => {
+      if (type === 'col') {
+        setColumnsize($root, $parent, cellWidth)
+      } else {
+        value = rowHeight
+        $parent.css({'height': rowHeight + 'px'})
+      }
+    }
+
     document.onmousemove = e => {
       if (type === 'col') {
         let delta = e.pageX - coords.right
@@ -34,6 +43,7 @@ export function resizeHandler($root, event) {
         $resizer.css({bottom: -delta + 'px'})
       }
     }
+
     document.onmouseup = () => {
       document.onmousemove = null
       document.onmouseup = null
@@ -53,7 +63,8 @@ export function resizeHandler($root, event) {
 
       resolve({
         value,
-        id: type === 'col' ? $parent.data.col : null
+        type,
+        id: $parent.data[type]
       })
 
       $resizer.css({
@@ -63,38 +74,8 @@ export function resizeHandler($root, event) {
   })
 }
 
-export function setDefault($root, event) {
-  return new Promise( resolve => {
-    const $resizer = $(event.target)
-    const $parent = $resizer.closest('[data-type="resizable"')
-    const type = $resizer.data.resize
-    let value
-
-    if (type === 'col') {
-      setColumnsize($root, $parent, cellWidth)
-    } else {
-      value = rowHeight
-      $parent.css({'height': rowHeight + 'px'})
-    }
-
-    resolve({
-      value,
-      id: type === 'col' ? $parent.data.col : null
-    })
-  })
-}
-
 function setColumnsize($root, $el, value) {
   $el.css({'width': value + 'px'})
   $root.findAll(`[data-col="${$el.data.col}"]`)
     .forEach(el => el.style.width = value + 'px')
-}
-
-export function setTablesize($root, tableState={}) {
-  const colState = tableState.colState
-  Object.keys(colState).forEach(colIndex =>{
-    const $el = $root.find(`[data-col="${colIndex}"]`)
-    console.log('Set table ', $el)
-    setColumnsize($root, $el, colState[colIndex])
-  })
 }
