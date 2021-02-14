@@ -1,6 +1,7 @@
 import {ExcelComponent} from '@core/ExcelComponent';
 import {createTable} from '@/components/table/table.template';
-import {resizeHandler, setDefaultsize} from '@/components/table/table.resize';
+import {resizeHandler, setDefault, setTablesize} from
+  '@/components/table/table.resize';
 import {isCell, shouldResize, shiftKeyEvent, nextSelector} from
   '@/components/table/table.functions';
 import {TableSelection} from '@/components/table/TableSelection';
@@ -33,7 +34,7 @@ export class Table extends ExcelComponent {
 
     const $cell = this.$root.find('[data-id="0:0"]')
     this.selectCell($cell)
-
+    setTablesize(this.$root, this.store.getState())
     this.$on('formula:input', (text) => {
       this.selection.current.text(text)
     })
@@ -50,6 +51,7 @@ export class Table extends ExcelComponent {
   async resizeTable(event) {
     try {
       const data = await resizeHandler(this.$root, event)
+      console.log(data)
       this.$dispatch(actions.tableResize(data))
     } catch (e) {
       console.warn('Resize error', e.message)
@@ -57,8 +59,7 @@ export class Table extends ExcelComponent {
   }
 
   onDblclick(event) {
-    console.log('DOBLEClick!')
-    console.log(setDefaultsize(this.$root, event))
+    console.log(setDefault(this.$root, event))
   }
 
   onMousedown(event) {

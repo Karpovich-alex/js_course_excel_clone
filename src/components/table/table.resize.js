@@ -38,9 +38,7 @@ export function resizeHandler($root, event) {
       document.onmousemove = null
       document.onmouseup = null
       if (type === 'col') {
-        $parent.css({'width': value + 'px'})
-        $root.findAll(`[data-col="${$parent.data.col}"]`)
-          .forEach(el => el.style.width = value + 'px')
+        setColumnsize($root, $parent, value)
         $resizer.css({
           right: 0,
           bottom: '0px'
@@ -65,27 +63,38 @@ export function resizeHandler($root, event) {
   })
 }
 
-export function setDefaultsize($root, event) {
+export function setDefault($root, event) {
   return new Promise( resolve => {
     const $resizer = $(event.target)
     const $parent = $resizer.closest('[data-type="resizable"')
-    // const coords = $parent.getCoords()
     const type = $resizer.data.resize
-
-    // const sideProp = type === 'col' ? 'bottom' : 'right'
-    // let value
+    let value
 
     if (type === 'col') {
-      // $parent.css({'width': value + 'px'})
-      $root.findAll(`[data-col="${$parent.data.col}"]`)
-        .forEach(el => el.style.width = cellWidth + 'px')
+      setColumnsize($root, $parent, cellWidth)
     } else {
+      value = rowHeight
       $parent.css({'height': rowHeight + 'px'})
     }
 
     resolve({
-      // value,
+      value,
       id: type === 'col' ? $parent.data.col : null
     })
+  })
+}
+
+function setColumnsize($root, $el, value) {
+  $el.css({'width': value + 'px'})
+  $root.findAll(`[data-col="${$el.data.col}"]`)
+    .forEach(el => el.style.width = value + 'px')
+}
+
+export function setTablesize($root, tableState={}) {
+  const colState = tableState.colState
+  Object.keys(colState).forEach(colIndex =>{
+    const $el = $root.find(`[data-col="${colIndex}"]`)
+    console.log('Set table ', $el)
+    setColumnsize($root, $el, colState[colIndex])
   })
 }
