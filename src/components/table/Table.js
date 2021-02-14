@@ -52,7 +52,6 @@ export class Table extends ExcelComponent {
   async resizeTable(event) {
     try {
       const data = await resizeHandler(this.$root, event)
-      console.log('resizedata', data)
       this.$dispatch(actions.tableResize(data))
     } catch (e) {
       console.warn('Resize error', e.message)
@@ -72,7 +71,6 @@ export class Table extends ExcelComponent {
           .map(id => this.$root.find(`[data-id="${id}"]`))
           .map($cells => this.selection.selectGroup($cells))
       } else {
-        console.log(event.target)
         this.selectCell($target)
       }
     }

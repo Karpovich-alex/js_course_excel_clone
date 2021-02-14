@@ -24,6 +24,9 @@ export function rootReducer(state, action) {
     }
   case CHANGE_TEXT:
     prevState=state['dataState'] || {}
+    if (action.data.value === '') {
+      delete state.dataState[action.data.id]
+    }
     prevState[action.data.id] = action.data.value
     return {...state, currentText: action.data.value, dataState: prevState}
   default: return state
