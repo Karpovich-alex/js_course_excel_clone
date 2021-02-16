@@ -34,14 +34,9 @@ export class ExcelComponent extends DomListener {
     this.store.dispatch(action)
   }
 
-
   isWatching(key) {
     return this.subscribe.includes(key)
   }
-
-  // $subscribe(fn) {
-  //   this.storeSub = this.store.subscribe(fn)
-  // }
 
   init() {
     this.initDOMListeners()

@@ -7,9 +7,12 @@ import {isCell, shouldResize, shiftKeyEvent, nextSelector} from
 import {TableSelection} from '@/components/table/TableSelection';
 import {$} from '@core/dom';
 import * as actions from '@/redux/actions'
+import {defaultStyles} from '@core/consts';
 
 
 export class Table extends ExcelComponent {
+  static className = 'excel__table'
+
   constructor($root, options) {
     super($root, {
       name: 'Table',
@@ -18,15 +21,8 @@ export class Table extends ExcelComponent {
     });
   }
 
-  static className = 'excel__table'
-
   prepare() {
     this.selection = new TableSelection()
-  }
-
-  selectCell($cell) {
-    this.selection.select($cell)
-    this.$emit('table:select', $cell)
   }
 
   init() {
@@ -43,6 +39,13 @@ export class Table extends ExcelComponent {
     this.$on('formula:done', () => {
       this.selection.current.focus()
     })
+
+    this.$on('toolbar:applyStyle', style => {
+      this.selection.applyStyle(style)
+      const data = {styles: style, id: this.selection.current.id()}
+      console.log('DATA1', data)
+      this.$dispatch(actions.changeStyle(data))
+    })
   }
 
   toHTML() {
@@ -56,6 +59,14 @@ export class Table extends ExcelComponent {
     } catch (e) {
       console.warn('Resize error', e.message)
     }
+  }
+
+  selectCell($cell) {
+    this.selection.select($cell)
+    this.$emit('table:select', $cell)
+    const styles = $cell.getStyles(Object.keys(defaultStyles))
+    const data ={styles: styles}
+    this.$dispatch(actions.changeStyle(data))
   }
 
   onMousedown(event) {

@@ -1,4 +1,4 @@
-import {cellWidth, rowHeight} from '@core/consts';
+import {cellWidth, defaultStyles, rowHeight} from '@core/consts';
 
 const CODES = {
   A: 65,
@@ -10,18 +10,25 @@ function toCell(row, state) {
     const dataId=`${row}:${col}`
     const cellData = state.dataState[dataId] || ''
     const width = getWidth(state.colState, col)
+    const cellStyle = {...defaultStyles, ...state.styleState[dataId]}
+    const styles = Object.keys(cellStyle)
+      .map(key => `${camelToDashCase(key)}: ${cellStyle[key]}`)
+      .join(';')
     return `
     <div class="cell" 
     contenteditable 
     data-col="${col}" 
     data-row="${row}"
     data-id="${dataId}"
-    style="width: ${width}"
+    style="width: ${width}; ${styles}"
     >${cellData}</div>
     `
   }
 }
 
+function camelToDashCase(str) {
+  return str.replace(/([A-Z])/g, g => `-${g[0].toLowerCase()}`)
+}
 
 function toColumn({col, index, width}) {
   return `

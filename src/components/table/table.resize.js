@@ -17,7 +17,7 @@ export function resizeHandler($root, event) {
 
     document.ondblclick = () => {
       if (type === 'col') {
-        setColumnsize($root, $parent, cellWidth)
+        setColumnSize($root, $parent, cellWidth)
       } else {
         value = rowHeight
         $parent.css({'height': rowHeight + 'px'})
@@ -48,7 +48,7 @@ export function resizeHandler($root, event) {
       document.onmousemove = null
       document.onmouseup = null
       if (type === 'col') {
-        setColumnsize($root, $parent, value)
+        setColumnSize($root, $parent, value)
         $resizer.css({
           right: 0,
           bottom: '0px'
@@ -74,7 +74,7 @@ export function resizeHandler($root, event) {
   })
 }
 
-function setColumnsize($root, $el, value) {
+function setColumnSize($root, $el, value) {
   $el.css({'width': value + 'px'})
   $root.findAll(`[data-col="${$el.data.col}"]`)
     .forEach(el => el.style.width = value + 'px')
