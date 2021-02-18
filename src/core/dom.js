@@ -15,13 +15,22 @@ class Dom {
 
   text(text) {
     if (typeof text === 'string') {
-      this.$el.textContent=text
+      this.$el.textContent = text
       return this
     }
     if (this.$el.tagName.toLowerCase() === 'input') {
-      return this.$el.valie.trim()
+      return this.$el.value.trim()
     }
     return this.$el.textContent.trim()
+  }
+
+  setAttr(name, value) {
+    this.$el.setAttribute(name, value)
+    return this
+  }
+
+  getAttr(name) {
+    return this.$el.getAttribute(name)
   }
 
   clear() {
@@ -96,6 +105,13 @@ class Dom {
     Object.keys(styles).forEach(key => {
       this.$el.style[key] = styles[key]
     })
+  }
+
+  getStyles(styles = []) {
+    return styles.reduce((res, s) => {
+      res[s] = this.$el.style[s]
+      return res
+    }, {})
   }
 }
 
