@@ -1,4 +1,5 @@
 import {cellWidth, defaultStyles, rowHeight} from '@core/consts';
+import {parse} from '@core/parse';
 
 const CODES = {
   A: 65,
@@ -20,8 +21,9 @@ function toCell(row, state) {
     data-col="${col}" 
     data-row="${row}"
     data-id="${dataId}"
+    data-value="${cellData}"
     style="width: ${width}; ${styles}"
-    >${cellData}</div>
+    >${parse(cellData)}</div>
     `
   }
 }

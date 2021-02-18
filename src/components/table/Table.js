@@ -8,7 +8,7 @@ import {TableSelection} from '@/components/table/TableSelection';
 import {$} from '@core/dom';
 import * as actions from '@/redux/actions'
 import {defaultStyles} from '@core/consts';
-
+import {parse} from '@core/parse';
 
 export class Table extends ExcelComponent {
   static className = 'excel__table'
@@ -32,7 +32,9 @@ export class Table extends ExcelComponent {
     this.selectCell($cell)
 
     this.$on('formula:input', (text) => {
-      this.selection.current.text(text)
+      this.selection.current
+        .setAttr('data-value', text)
+        .text(parse(text))
       this.changeTextInCell(text)
     })
 
@@ -100,6 +102,7 @@ export class Table extends ExcelComponent {
   }
 
   changeTextInCell(value) {
+    this.selection.current.setAttr('data-value', value)
     this.$dispatch(actions.changeText({
       id: this.selection.current.id(),
       value
