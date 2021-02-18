@@ -1,5 +1,10 @@
-import {APPLY_STYLE, CHANGE_STYLES, CHANGE_TEXT, TABLE_RESIZE}
-  from '@/redux/types';
+import {
+  APPLY_STYLE,
+  CHANGE_STYLES,
+  CHANGE_TEXT,
+  CHANGE_TABLE_NAME,
+  TABLE_RESIZE
+} from '@/redux/types';
 import {cellWidth, defaultStyles, rowHeight} from '@core/consts';
 
 export function rootReducer(state, action) {
@@ -46,6 +51,10 @@ export function rootReducer(state, action) {
       currentStyles: action.data.styles,
       styleState: prevState
     }
+
+  case CHANGE_TABLE_NAME:
+    return {...state, tableName: action.data}
+
   default:
     return state
   }

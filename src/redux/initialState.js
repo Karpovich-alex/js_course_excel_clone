@@ -1,5 +1,5 @@
 import {storage} from '@core/utils';
-import {defaultStyles} from '@core/consts';
+import {defaultStyles, defaultTitle} from '@core/consts';
 
 const defaultState = {
   colState: {},
@@ -8,6 +8,7 @@ const defaultState = {
   styleState: {},
   currentText: '',
   currentStyles: defaultStyles,
+  tableName: defaultTitle
 }
 
 export const initialState = storage('excel-state')
