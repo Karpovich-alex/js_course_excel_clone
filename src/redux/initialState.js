@@ -5,9 +5,9 @@ const defaultState = {
   colState: {},
   rowState: {},
   dataState: {},
+  styleState: {},
   currentText: '',
   currentStyles: defaultStyles,
-  styleState: {}
 }
 
 export const initialState = storage('excel-state')

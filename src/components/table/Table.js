@@ -42,9 +42,9 @@ export class Table extends ExcelComponent {
 
     this.$on('toolbar:applyStyle', style => {
       this.selection.applyStyle(style)
-      const data = {styles: style, id: this.selection.current.id()}
+      const data = {styles: style, ids: this.selection.selectedIds}
       console.log('DATA1', data)
-      this.$dispatch(actions.changeStyle(data))
+      this.$dispatch(actions.applyStyle(data))
     })
   }
 
