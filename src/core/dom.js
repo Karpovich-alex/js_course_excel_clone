@@ -19,7 +19,7 @@ class Dom {
       return this
     }
     if (this.$el.tagName.toLowerCase() === 'input') {
-      return this.$el.valie.trim()
+      return this.$el.value.trim()
     }
     return this.$el.textContent.trim()
   }
