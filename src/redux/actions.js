@@ -3,7 +3,8 @@ import {
   CHANGE_STYLES,
   CHANGE_TEXT,
   CHANGE_TABLE_NAME,
-  TABLE_RESIZE
+  TABLE_RESIZE,
+  UPDATE_TABLE
 } from '@/redux/types';
 
 export function tableResize(data) {
@@ -38,5 +39,11 @@ export function changeTableName(data) {
   return {
     type: CHANGE_TABLE_NAME,
     data
+  }
+}
+
+export function updateTable() {
+  return {
+    type: UPDATE_TABLE
   }
 }

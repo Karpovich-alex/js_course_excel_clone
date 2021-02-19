@@ -1,6 +1,7 @@
 import {$} from '@core/dom'
 import {Emiter} from '@core/Emiter'
 import {StoreSubscriber} from '@core/StoreSubscriber';
+import {updateTable} from '@/redux/actions';
 
 export class Excel {
   constructor(options) {
@@ -29,6 +30,7 @@ export class Excel {
   storeChanged(changes) {}
 
   init() {
+    this.store.dispatch(updateTable())
     this.subscriber.subscribeComponents(this.components)
     this.components.forEach(component => component.init())
   }

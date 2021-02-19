@@ -1,11 +1,16 @@
 import {storage} from '@core/utils';
 
-export function toHTML(tableName = 'Таблица номер 1', tableLink = '') {
+export function toHTML(tableLink) {
+  const tableState = storage(tableLink)
   const tableId = tableLink.split(':')[1]
+  const tableName = tableState['tableName']
   return `
     <li class="db__record">
           <a href="#excel/${tableId}">${tableName}</a>
-          <strong>12.06.2020</strong>
+          <strong>
+            ${new Date(+tableState['updateTable']).toLocaleDateString()}
+            ${new Date(+tableState['updateTable']).toLocaleTimeString()}
+          </strong>
      </li>
 `
 }
@@ -31,15 +36,11 @@ export function createTableRecords() {
 
   return `<div class="db__list-header">
         <span>Название</span>
-        <span>Дата открытия</span>
+        <span>Дата Изменения</span>
       </div>
 
       <ul class="db__list">
-        ${keys.map(tableLink => {
-    const tableState = storage(tableLink)
-    const tableName = tableState['tableName']
-    return toHTML(tableName, tableLink)
-  }).join('')}
+        ${keys.map(toHTML).join('')}
       </ul>
 `
 }

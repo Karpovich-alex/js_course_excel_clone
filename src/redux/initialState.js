@@ -8,7 +8,9 @@ const defaultState = {
   styleState: {},
   currentText: '',
   currentStyles: defaultStyles,
-  tableName: defaultTitle
+  tableName: defaultTitle,
+  tableCreateTime: Date.now().toString(),
+  updateTable: Date.now().toString()
 }
 
 export function initialState(state) {

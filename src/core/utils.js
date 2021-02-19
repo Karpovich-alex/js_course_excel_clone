@@ -10,6 +10,7 @@ export function storage(key, data) {
     return JSON.parse(localStorage.getItem(key))
   }
   localStorage.setItem(key, JSON.stringify(data))
+  return storage(key)
 }
 
 export function isEqual(a, b) {
