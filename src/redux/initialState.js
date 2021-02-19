@@ -11,6 +11,6 @@ const defaultState = {
   tableName: defaultTitle
 }
 
-export const initialState = storage('excel-state')
-  ? storage('excel-state')
-  : defaultState
+export function initialState(state) {
+  return storage(state) ? storage(state) : storage(state, defaultState)
+}
