@@ -10,30 +10,17 @@ const isDev = !isProd
 
 const filename = (ext) => isDev ? `bundle.${ext}` : `bundle.[hash].${ext}`
 
-const jsLoaders = () =>{
-  const loaders = [
-    {
-      loader: 'babel-loader',
-      options: {
-        presets: ['@babel/preset-env'],
-        plugins: ['@babel/plugin-proposal-class-properties']
-      },
-    },
-  ]
+const jsLoaders = () => {
+  const loaders = ['babel-loader']
   if (isDev) {
     loaders.push('eslint-loader')
   }
   return loaders
 }
-// if (devMode) {
-//     // only enable hot in development
-//     const HotModuleReplacementPlugin= HotModuleReplacementPlugin()
-// }
+
 if (isDev) {
   console.log('DEV')
 }
-
-// target: process.env.NODE_ENV === "development" ? "web" : "browserslist"
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
@@ -67,12 +54,14 @@ module.exports = {
       },
     }),
     new CopyPlugin(
-        {
-          patterns: [
-            {from: path.resolve(__dirname, 'src/favicon.ico'),
-              to: path.resolve(__dirname, 'dist')},
-          ],
-        }),
+      {
+        patterns: [
+          {
+            from: path.resolve(__dirname, 'src/favicon.ico'),
+            to: path.resolve(__dirname, 'dist')
+          },
+        ],
+      }),
     new MiniCssExtractPlugin({
       // filename: filename('css')
       filename: isDev ? '[name].css' : '[name].[contenthash].css',
